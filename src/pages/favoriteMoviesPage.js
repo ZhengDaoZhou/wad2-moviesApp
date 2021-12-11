@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import { MoviesContext } from "../contexts/moviesContext";
 import { useQueries } from "react-query";
@@ -8,6 +8,7 @@ import RemoveFromFavorites from "../components/cardIcons/removeFromFavorites";
 import WriteReview from "../components/cardIcons/writeReview";
 
 const FavoriteMoviesPage = () => {
+  const [page, setPage] = useState(1);
   const {favorites: movieIds } = useContext(MoviesContext);
 
   // Create an array of queries and run in parallel.
@@ -25,7 +26,10 @@ const FavoriteMoviesPage = () => {
   if (isLoading) {
     return <Spinner />;
   }
-  const movies = favoriteMovieQueries.map((q) => q.data);
+  const movies = favoriteMovieQueries.map((q) => {
+    q.data.genre_ids = q.data.genres.map(g => g.id)
+    return q.data
+  });
   const toDo = () => true;
 
   return (
@@ -39,6 +43,10 @@ const FavoriteMoviesPage = () => {
             <WriteReview movie={movie} />
           </>
         );
+      }}
+      page={page}
+      paging={(event,value) =>{
+        setPage(value);
       }}
     />
   );

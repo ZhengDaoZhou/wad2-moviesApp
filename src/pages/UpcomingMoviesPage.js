@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PageTemplate from '../components/templateMovieListPage'
 import { useQuery } from 'react-query'
 import Spinner from '../components/spinner'
@@ -6,7 +6,8 @@ import { getUpcomingMovies } from "../api/tmdb-api";
 import AddToWatchIcon from '../components/cardIcons/addToWatch'
 
 const UpcomingMoviesPage = (props) => {
-  const {  data, error, isLoading, isError }  = useQuery('upcoming', getUpcomingMovies)
+  const [page, setPage] = useState(1);
+  const {  data, error, isLoading, isError }  = useQuery(["upcoming page", { page: page }], getUpcomingMovies)
 
   if (isLoading) {
     return <Spinner />
@@ -26,6 +27,10 @@ const UpcomingMoviesPage = (props) => {
       movies={movies}
       action={(movie) => {
         return <AddToWatchIcon movie={movie} />
+      }}
+      page={page}
+      paging={(event,value) =>{
+        setPage(value);
       }}
     />
   );
