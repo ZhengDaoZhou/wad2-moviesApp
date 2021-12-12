@@ -8,6 +8,8 @@ import Pagination from '@mui/material/Pagination';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from "@material-ui/core/Typography";
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 const useStyles = makeStyles({
   root: {
@@ -19,6 +21,7 @@ function MovieListPageTemplate({ movies, title, action, page, paging, paging2 })
   const classes = useStyles();
   const [nameFilter, setNameFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
+  const [sortType, setSortType] = useState("");
   const genreId = Number(genreFilter);
 
   let displayedMovies = movies
@@ -28,6 +31,24 @@ function MovieListPageTemplate({ movies, title, action, page, paging, paging2 })
     .filter((m) => {
       return genreId > 0 ? m.genre_ids.includes(genreId) : true;
     });
+  
+  if(sortType == "TopRated"){
+    displayedMovies.sort((a,b)=>{
+      return b.vote_average - a.vote_average;
+    });
+  }
+  else if(sortType == "Lastest"){
+    displayedMovies.sort((a,b)=>{
+      let ayear=parseInt(a.release_date.substring(0,4));
+      let byear=parseInt(b.release_date.substring(0,4));
+      let amonth=parseInt(a.release_date.substring(5,7));
+      let bmonth=parseInt(b.release_date.substring(5,7));
+      let aday=parseInt(a.release_date.substring(8));
+      let bday=parseInt(b.release_date.substring(8));
+      let value = (byear-ayear)*1000 + (bmonth-amonth)*100 + (bday-aday);
+      return value
+    });
+  }
 
   const handleChange = (type, value) => {
     if (type === "name") setNameFilter(value);
@@ -49,7 +70,7 @@ function MovieListPageTemplate({ movies, title, action, page, paging, paging2 })
           Go to page:
         </Typography>
       </Grid>
-      <Grid item xs={1}>
+      <Grid item xs={4}>
         <Select
           value={page}
           onChange={paging2}
@@ -66,6 +87,16 @@ function MovieListPageTemplate({ movies, title, action, page, paging, paging2 })
           <MenuItem value={9}>Nine</MenuItem>
           <MenuItem value={10}>Ten</MenuItem>
         </Select>
+      </Grid>
+      <Grid item xs={2}>
+        <ButtonGroup variant="text">
+          <Button onClick={() => {
+              setSortType("TopRated");
+          }}>Top Rated</Button>
+          <Button onClick={() => {
+              setSortType("Lastest");
+          }}>Lastest</Button>
+        </ButtonGroup>
       </Grid>
       <Grid item container spacing={5}>
         <Grid key="find" item xs={12} sm={6} md={4} lg={3} xl={2}>
