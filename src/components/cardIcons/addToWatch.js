@@ -6,7 +6,6 @@ import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
 const AddToWatchIcon = ({ movie }) => {
 
   const context = useContext(MoviesContext);
-  const {mustWatch} = useContext(MoviesContext);
   
   const handleAddToWatch = (e) => {
     e.preventDefault();

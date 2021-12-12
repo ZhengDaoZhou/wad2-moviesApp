@@ -3,7 +3,7 @@ import PageTemplate from '../components/templateMovieListPage'
 import { useQuery } from 'react-query'
 import Spinner from '../components/spinner'
 import { getPopularMovies } from "../api/tmdb-api";
-import AddToWatchIcon from '../components/cardIcons/addToWatch'
+import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
 
 const PopularMoviesPage = (props) => {
   const [page, setPage] = useState(1);
@@ -26,7 +26,7 @@ const PopularMoviesPage = (props) => {
       title='Popular Movies'
       movies={movies}
       action={(movie) => {
-        return <AddToWatchIcon movie={movie} />
+        return <AddToFavoritesIcon movie={movie} />
       }}
       page={page}
       paging={(event,value) =>{
