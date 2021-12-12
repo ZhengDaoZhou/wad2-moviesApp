@@ -12,13 +12,6 @@ import Menu from "@material-ui/core/Menu";
 import { withRouter } from "react-router-dom";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import Drawer from '@mui/material/Drawer';
-import TextField from '@mui/material/TextField';
-import Divider from '@mui/material/Divider';
-
-import { getToken, validateUser } from "../../api/tmdb-api";
-import { useLazyQuery } from 'react-query'
-import Session from 'react-session-api'
 
 const useStyles = makeStyles((theme) => ({
   title: {
