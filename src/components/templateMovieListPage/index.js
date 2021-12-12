@@ -46,6 +46,7 @@ function MovieListPageTemplate({ movies, title, action, page, paging, paging2 })
       let aday=parseInt(a.release_date.substring(8));
       let bday=parseInt(b.release_date.substring(8));
       let value = (byear-ayear)*1000 + (bmonth-amonth)*100 + (bday-aday);
+      if (value == 0) value = b.vote_average - a.vote_average;
       return value
     });
   }

@@ -32,6 +32,9 @@ const UpcomingMoviesPage = (props) => {
       paging={(event,value) =>{
         setPage(value);
       }}
+      paging2={(event) =>{
+        setPage(event.target.value);
+      }}
     />
   );
 };
