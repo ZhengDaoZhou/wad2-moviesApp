@@ -12,6 +12,13 @@ import Menu from "@material-ui/core/Menu";
 import { withRouter } from "react-router-dom";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import Drawer from '@mui/material/Drawer';
+import TextField from '@mui/material/TextField';
+import Divider from '@mui/material/Divider';
+
+import { getToken, validateUser } from "../../api/tmdb-api";
+import { useLazyQuery } from 'react-query'
+import Session from 'react-session-api'
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -26,15 +33,28 @@ const SiteHeader = ( { history }) => {
   const open = Boolean(anchorEl);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-
-  const menuOptions = [
-    { label: "Home", path: "/" },
-    { label: "Top Rated", path: "/movies/topRated" },
-    { label: "Popular", path: "/movies/popular" },
-    { label: "Upcoming", path: "/movies/upcoming" },
-    { label: "Favorites", path: "/movies/favorites" },
-    { label: "Must Watch", path: "/movies/mustWatch" },
-  ];
+  let menuOptions = [];
+  if (localStorage.getItem("account_login")){
+    menuOptions = [
+      { label: "Home", path: "/" },
+      { label: "Top Rated", path: "/movies/topRated" },
+      { label: "Popular", path: "/movies/popular" },
+      { label: "Upcoming", path: "/movies/upcoming" },
+      { label: "Favorites", path: "/movies/favorites" },
+      { label: "Must Watch", path: "/movies/mustWatch" },
+    ];
+  }
+  else{
+    menuOptions = [
+      { label: "Home", path: "/" },
+      { label: "Top Rated", path: "/movies/topRated" },
+      { label: "Popular", path: "/movies/popular" },
+      { label: "Upcoming", path: "/movies/upcoming" },
+      { label: "Favorites", path: "/movies/favorites" },
+      { label: "Must Watch", path: "/movies/mustWatch" },
+      { label: "Login", path: "/movies/login" },
+    ];
+  }
 
   const handleMenuSelect = (pageURL) => {
     history.push(pageURL);
@@ -52,7 +72,7 @@ const SiteHeader = ( { history }) => {
             TMDB Client
           </Typography>
           <Typography variant="h6" className={classes.title}>
-            All you ever wanted to know about Movies!
+            {localStorage.getItem("account_login")?"Hi "+localStorage.getItem("account_username")+". All you ever wanted to know about Movies!":"All you ever wanted to know about Movies!"}
           </Typography>
             {isMobile ? (
               <>
@@ -101,6 +121,19 @@ const SiteHeader = ( { history }) => {
                     {opt.label}
                   </Button>
                 ))}
+                {localStorage.getItem("account_login")?<Button
+                    key={"Logout"}
+                    color="inherit"
+                    onClick={() => {
+                      localStorage.removeItem("account_login");
+                      window.location.reload()
+                      window.location.href = "/"
+                  }}
+                  >
+                    {"Logout"}
+                  </Button>:null
+                  
+                }
               </>
             )}
         </Toolbar>

@@ -9,13 +9,15 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@mui/material": "^5.2.3",
+    "antd-mobile": "^5.0.0-rc.4",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hook-form": "^3.29.4",
     "react-query": "^3.13.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.1"
+    "react-scripts": "4.0.1",
+    "react-session-api": "^1.1.0"
   },
   "scripts": {
     "storybook": "start-storybook -p 6006 -s public",
